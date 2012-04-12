@@ -1,0 +1,135 @@
+<html>
+   <head>
+   <script>
+   var contexto;
+   var canhao;
+   var xcanhao = 320;
+   var ycanhao = 400;
+   var diddy;
+   var xdiddy = xcanhao;
+   var ydiddy = ycanhao;
+   var xseta = 0;
+   var yseta = 0;
+   var angulogiro = 0;
+   var anguloseta;
+   var tiro = 0;
+   var angulotiro;
+
+      function Initialize()
+      {
+         var canvas = document.getElementById("meuCanvas");
+         if(canvas.getContext)
+         {
+            contexto = canvas.getContext("2d");
+            canhao = new Image();
+            canhao.src = "../media/canhao.gif ";
+            diddy = new Image();
+            diddy.src = "../media/diddy.png ";
+
+            setInterval(Run, 16.6);
+            canvas.onmousemove = mousemov;
+            window.onkeydown = KeyDownVerify;
+
+
+         }
+         else
+         {
+            alert("Contexto de canvas não suportado");
+         }
+      }
+
+      function mousemov(e)
+      {
+
+       xseta = e.pageX;
+       yseta = e.pageY;
+
+      }
+
+      function KeyDownVerify(e)
+	{
+
+
+
+               if (e.keyCode == 32)  // se apertou espaço, verifica se tem tiro ativo
+                {
+                  if(tiro==0) // atira apenas se o tiro se nao tiver tiro ativo(diddys na tela)
+                 {
+                       angulotiro = anguloseta;
+                       tiro = 1;
+                  }
+                }
+    	}
+
+      function Run()
+      {
+         Update();
+         Draw();
+      }
+
+      function Update()
+      {
+         anguloseta = Math.atan2(ycanhao-yseta, xcanhao-xseta);
+
+
+         if(tiro==1){                  //qdo atirar começa a girar e sai pela tangente do angulo em que a seta esta apontada
+         angulogiro = angulogiro +0.3; // Velocidade do giro
+         xdiddy = xdiddy + 10*Math.cos(angulotiro)*-1; //Velocidade do disparo em x
+         ydiddy = ydiddy + 10*Math.sin(angulotiro)*-1; //Velocidade do disparo em y
+
+         }
+
+         if(xdiddy < -50 || xdiddy > 850 || ydiddy > 650 || ydiddy < -50)      // se diddy sair da tela ele zera cont. tiro e posiciona diddy
+         {
+            tiro = 0;
+            xdiddy=xcanhao;
+            ydiddy=ycanhao;
+         }
+
+      }
+
+
+      function Draw()
+      {
+         contexto.clearRect(0,0,800,600);
+         contexto.fillText("x = "+xseta, 20, 50);
+         contexto.fillText("y = "+yseta, 20, 60);
+
+         if(tiro==1)               // so aparece qdo atirar
+{
+
+         contexto.save();
+         contexto.translate(xdiddy + 50 / 2, ydiddy + 50 / 2);
+         contexto.rotate(angulogiro);
+         contexto.translate(-(xdiddy + 50 / 2), -(ydiddy + 50 / 2));
+	    contexto.drawImage(diddy, xdiddy, ydiddy,50,50);
+	    contexto.restore();
+}
+
+         contexto.save();
+         contexto.translate(xcanhao + canhao.width / 2, ycanhao + canhao.height / 2);
+         contexto.rotate(anguloseta);
+         contexto.translate(-(xcanhao + canhao.width / 2), -(ycanhao + canhao.height / 2));
+	    contexto.drawImage(canhao, xcanhao, ycanhao);
+	    contexto.restore();
+
+
+
+
+
+
+
+
+      }
+
+   </script>
+   </head>
+   <body onload="Initialize()">
+
+      <canvas id="meuCanvas" width="640" height="480" style="background-color: lightblue; margin-left:-8px; margin-top:-8px;" >
+         Não Suportado
+      </canvas>
+
+   </body>
+</html>
+

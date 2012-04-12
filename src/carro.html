@@ -6,47 +6,47 @@
 	var carro;
 	var angulo = 0;
 	var aceleracao = 1;
-	
+
 	function Initialize()
 	{
 		var canvas = document.getElementById("tela");
-		
+
 		if(canvas.getContext)
 		{
 			context = canvas.getContext("2d");
-			
+
 			carro = new Image();
 			carro.src = "../media/carro.PNG";
-			
+
 			angulo = Math.PI / 3;
-			
+
 			window.onkeydown = KeyDownVerify;
-			
+
 			setInterval(Run, 16.6);
-		}	
+		}
 	}
-	
+
 	function KeyDownVerify(e)
 	{
-		if (e.keyCode == 39)angulo     += .05; //right
-		if (e.keyCode == 37)angulo     -= .05; //left
-		if (e.keyCode == 38)aceleracao += .05; //up 
-		if (e.keyCode == 40)aceleracao -= .05; //down 
-		if (e.keyCode == 32)aceleracao  = 0;   //space
+		if (e.keyCode == 39)angulo     += .05; // Direita
+		if (e.keyCode == 37)angulo     -= .05; // Esquerda
+		if (e.keyCode == 38)aceleracao += .05; // Cima
+		if (e.keyCode == 40)aceleracao -= .05; // Baixo
+		if (e.keyCode == 32)aceleracao  = 0;   // Barra de espaco
 	}
-	
+
 	function Run()
 	{
 		Update();
 		Draw();
 	}
-	
+
 	function Update()
 	{
 		x = x + Math.cos(angulo) * aceleracao;
 		y = y + Math.sin(angulo) * aceleracao;
 	}
-	
+
 	function Draw()
 	{
 		context.clearRect(0,0,800,600);
@@ -68,3 +68,4 @@
 	</canvas>
 </body>
 </html>
+
