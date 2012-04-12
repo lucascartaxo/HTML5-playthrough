@@ -5,13 +5,17 @@
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>Bola com gravidade</title>
 <script>
-  var xbola = 20;
-  var ybola = 20;
   var context;
   var width = 800;
   var height = 600;
-  var gravidade = 1.5;
-  var velocidade = 0;
+
+  var xbola = 320;
+  var ybola = 20;
+
+  var gravidade = 1.0; // Aceleração da queda
+  var velocidade = 0; // Velocidade de queda da bola.NAO MEXA!
+  var angulo = 0; //Velocidade da rotação
+  var peso = 2;// Peso da bola.0 para perfeitamente elástica
 
   function initialize(){
       var canvas = document.getElementById("myCanvas")
@@ -34,26 +38,35 @@
 
   function Update()
   {
-    //Esta função ainda está com um pequeno bug...
-    //Ao alcançar a altura minima,a bola nao para de quicar
-	  velocidade  += gravidade;
-	  ybola += velocidade * gravidade;
-	  if( (ybola > height-360) || (ybola < 0) ){
-		  velocidade *= -1;
-	  }
+    angulo += 0.1 // Velocidade da rotação
+
+	  velocidade  += (gravidade + peso); // Força aplicada à bola dorante a queda.
+	                                     // Deveria ser feito um cálculo de energia potencial pra isso.
+	  ybola += (velocidade * gravidade);
+
+	  if(ybola > height-bola.width) velocidade *= -1; //Verifica se a bola está subindo ou descendo
   }
 
   function Draw()
   {
-	  context.clearRect(0,0,width,height);
-	  context.drawImage(bola,xbola,ybola);
+    if(ybola < height - bola.height){//Para de desenhar caso a bola chegue ao chão.Precisa melhorar
+	    context.clearRect(0,0,width,height);
+
+      context.save();
+	      context.translate(xbola + bola.width / 2, ybola + bola.width/ 2);
+        context.rotate(angulo);
+        context.translate(-(xbola + bola.width / 2), -(ybola + bola.width/ 2));
+
+    	  context.drawImage(bola,xbola,ybola);
+      context.restore();
+    }
   }
 
 </script>
 
 </head>
 	<body onload="initialize()">
-		<canvas id="myCanvas" width="800" height="600">
+		<canvas id="myCanvas" width="800" height="600" style="background-color:#66a7e8;">
 
 		</canvas>
 	</body>
