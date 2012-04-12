@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Bexiga animada</title>
+
+<script>
+    var bexiga;
+    var xBexiga = 10;
+    var yBexiga = 10;
+    var context;
+
+	function initialize(){
+		var canvas = document.getElementById("myCanvas")
+		console.log(canvas);
+		if(canvas.getContext){
+			context = canvas.getContext("2d");
+			bexiga = new Image();
+			bexiga.src = "../media/balloon2.png";
+
+			setInterval(Run,16.6);
+
+
+		}
+	}
+
+
+	function Run()
+	{
+		Update();
+		Draw();
+	}
+
+	function Update()
+	{
+		xBexiga += 1;
+	}
+
+	function Draw()
+	{
+		context.clearRect(0,0,800,600);
+		context.drawImage(bexiga,xBexiga,yBexiga);
+	}
+</script>
+</head>
+	<body onload="initialize()">
+		<canvas id="myCanvas" width="800" height="600">
+
+		</canvas>
+	</body>
+</html>
+

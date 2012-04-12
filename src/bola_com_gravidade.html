@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Bola com gravidade</title>
+<script>
+  var xbola = 20;
+  var ybola = 20;
+  var context;
+  var width = 800;
+  var height = 600;
+  var gravidade = 1.5;
+  var velocidade = 0;
+
+  function initialize(){
+      var canvas = document.getElementById("myCanvas")
+      if(canvas.getContext){
+        context = canvas.getContext("2d");
+        bola = new Image();
+        bola.src = "../media/beach_ball.png";
+
+        setInterval(Run,16.6);
+
+      }
+  }
+
+
+  function Run()
+  {
+	  Update();
+	  Draw();
+  }
+
+  function Update()
+  {
+    //Esta função ainda está com um pequeno bug...
+    //Ao alcançar a altura minima,a bola nao para de quicar
+	  velocidade  += gravidade;
+	  ybola += velocidade * gravidade;
+	  if( (ybola > height-360) || (ybola < 0) ){
+		  velocidade *= -1;
+	  }
+  }
+
+  function Draw()
+  {
+	  context.clearRect(0,0,width,height);
+	  context.drawImage(bola,xbola,ybola);
+  }
+
+</script>
+
+</head>
+	<body onload="initialize()">
+		<canvas id="myCanvas" width="800" height="600">
+
+		</canvas>
+	</body>
+</html>
+

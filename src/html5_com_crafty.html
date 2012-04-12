@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>HTML5 com Crafy JS</title>
+
+<script language="javascript" src="../lib/jquery-1.7.js"></script>
+<script language="javascript" src="../lib/crafty-dev.js"></script>
+
+<script language="javascript" >
+
+  $(document).ready(function() {
+    // Com crafty,não é necessário definir a tag CANVAS no HTML.
+    Crafty.init(640,480).canvas.init();
+    Crafty.background("black");
+
+    // Colocamos uma foto para servir de plano de fundo
+    var background = Crafty.e("2D,Canvas,Image")
+      .image("../media/background-2.png")
+      .attr({x:0, y:0});
+      
+    // Criando um chão.
+    // Definimos um atributo 'Floor' pra ser usado mais pra frente
+    var floor = Crafty.e("2D, Canvas, Color, Collision, Floor")
+		  .color("blue")
+      .attr({h:10, w:400, x:50, y:380 });
+
+    // Criamos o jogador
+    //O atributo FOURWAY faz com que ele tenha movimentações para quatro direções
+    // Gravity usa o atributo Floor
+    var player = Crafty.e("2D, Canvas, Color, Player, Physics, Fourway,Gravity")
+     .color("white")
+     .attr({w:50, h:50, x:126, y:10})
+     .fourway(5)
+     .gravity("Floor");
+
+    // Box será uma caixa simples
+    var box = Crafty.e("2D, Canvas, Color, Collision, Box,Floor")
+      .color("brown")
+      .attr({w:50, h:50, x:150, y:330});
+    
+    
+    // Adicionamos colisão do poersonagem com a caixa. Caso o jogador
+    // encoste na caixa,ele nao podera ultrapassá-la
+    player.addComponent("Collision").bind('Moved', function(from) {
+      if(this.hit('Box,Floor')) {
+         this.attr({x: from.x, y:from.y});
+      };
+    });
+
+
+  });
+
+
+
+</script>
+</head>
+
+<body>
+</body>
+
+</html>
+

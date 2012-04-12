@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Casa - HTML5</title>
+
+<script language="javascript">
+	window.onload = function(){
+    var canvas = document.getElementById("MyCanvas");
+    var context = canvas.getContext("2d");
+
+
+	//PORTA
+    context.fillRect(50, 100, 320, 240);
+    context.fillStyle = "#0f0";
+    context.fill();
+
+    //CASA
+    context.fillRect(80, 240, 50, 100);
+    context.fillStyle = "#00f000";
+    context.fill();
+
+    //JANELA
+    context.arc(250, 200, 60, 0, 2 * Math.PI, false);
+    context.fillStyle = "#f00";
+    context.fill();
+
+
+	//TELHADO
+	  context.beginPath();
+		  context.moveTo(50, 100);
+		  context.lineTo(370, 100);
+		  context.lineTo(200, 10);
+		  context.fill();
+
+	  context.closePath();
+
+	//CHAMINE
+	context.fillStyle = "#999";
+	context.fillRect(100, 0, 50, 100);    context.fill();
+
+
+  };
+
+</script>
+</head>
+
+<body>
+
+	<canvas id="MyCanvas" height="640" width="480" >
+
+	</canvas>
+
+</body>
+
+</html>
+
