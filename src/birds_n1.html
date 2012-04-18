@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Birds - N1</title>
+<script>
+
+  const STAGEX = 478;
+  const STAGEY = 505;
+
+  const _X = 0;
+  const _Y = 1;
+
+  var context;
+  var grassBg1a;
+  var grassBg2a;
+  var grassBg3a;
+  var grassFg;
+  var tucanoSpriteA;
+  var azul;
+  var tucanoCont = 0;
+  var currentSprite = 0;
+  var contPassaros = 0;
+  var tucanos = ["../media/tucano1.png","../media/tucano2.png","../media/tucano3.png","../media/tucano4.png"];
+  var arrUrl = [ "../media/BLUE_GRASS_BG_1.png","../media/BLUE_GRASS_BG_2.png","../media/BLUE_GRASS_BG_3.png","../media/BLUE_GRASS_FG_1.png","../media/azul.png", tucanos[0]];
+
+  var bg1Pos = [0,0];
+  var bg2Pos = [0,0];
+  var bg3Pos = [0,0];
+  var fgPos = [0,0];
+  var tucanoPos = [30, STAGEY/2];
+  var azulPos = [STAGEX,0];
+
+  var arrPos = [ bg1Pos, bg2Pos, bg3Pos, fgPos, tucanoPos, azulPos];
+
+
+  function initialize(){
+      var canvas = document.getElementById("myCanvas")
+      if(canvas.getContext){
+        context = canvas.getContext("2d");
+
+		 grassBg1a = new Image();
+		 grassBg1a.src = arrUrl[0];
+
+  		 grassBg2a = new Image();
+		 grassBg2a.src = arrUrl[1];
+
+  		 grassBg3a = new Image();
+		 grassBg3a.src = arrUrl[2];
+
+  		 grassFg = new Image();
+		 grassFg.src = arrUrl[3];
+
+  		 tucanoSpriteA = new Image();
+		 tucanoSpriteA.src = tucanos[0];
+
+
+		 azul = new Image();
+		 azul.src = arrUrl[4];
+
+		window.onkeydown = handleKeyDown;
+
+
+        setInterval(Run,16.6);
+
+      }
+  }
+
+    function handleKeyDown(e)
+	{
+		if (e.keyCode == 38)tucanoPos[_Y] -= 5; // Cima
+		if (e.keyCode == 40)tucanoPos[_Y] += 5; // Baixo
+	}
+
+
+  function Run()
+  {
+	  Update();
+	  Draw();
+  }
+
+  function Update()
+  {
+    ( bg1Pos[_X] == -grassBg1a.width ) ? bg1Pos[_X] = 0 : bg1Pos[_X] --;
+	( bg2Pos[_X] <= -grassBg2a.width ) ? bg2Pos[_X] = 0 : bg2Pos[_X] -= 3;
+	( bg3Pos[_X] <= -grassBg3a.width ) ? bg3Pos[_X] = 0 : bg3Pos[_X] -= 5;
+	( fgPos[_X] <= -grassFg.width ) ? fgPos[_X] = 0 : fgPos[_X] -= 5;
+
+	if( tucanoCont == 60 )
+	{
+		tucanoCont = 0;
+
+		if( currentSprite == 3 )
+		{
+			currentSprite = 0;
+		}
+		else
+		{
+			currentSprite++;
+		}
+
+		tucanoSpriteA.src = tucanos[currentSprite];
+	}
+	else
+	{
+		tucanoCont++;
+	}
+
+	if( azulPos[_X] < -azul.width )
+	{
+		azulPos[_X] = STAGEX;
+		azulPos[_Y] = Math.random()* (505 - azul.height );
+		contPassaros++;
+	}
+	else{
+		azulPos[_X] -= 3;
+	}
+
+  }
+
+  function Draw()
+  {
+    context.clearRect(0,0,STAGEX,STAGEY);
+
+	context.drawImage( grassBg1a , bg1Pos[_X] , bg1Pos[_Y] );
+	context.drawImage( grassBg1a , bg1Pos[_X] + grassBg1a.width, bg1Pos[_Y] );
+
+	context.drawImage( grassBg2a , bg2Pos[_X] , grassBg1a.height - grassBg2a.height );
+	context.drawImage( grassBg2a , bg2Pos[_X] + grassBg2a.width, grassBg1a.height - grassBg2a.height );
+
+	context.drawImage( grassBg3a , bg3Pos[_X] , grassBg1a.height - grassBg3a.height );
+	context.drawImage( grassBg3a , bg3Pos[_X] + grassBg3a.width, grassBg1a.height - grassBg3a.height );
+	context.drawImage( grassBg3a , bg3Pos[_X] + (grassBg3a.width * 2), grassBg1a.height - grassBg3a.height );
+
+	context.drawImage( grassFg , fgPos[_X] , grassBg1a.height );
+	context.drawImage( grassFg , fgPos[_X] + grassFg.width, grassBg1a.height );
+	context.drawImage( grassFg , fgPos[_X] + (grassFg.width * 2), grassBg1a.height );
+
+	context.drawImage( tucanoSpriteA , tucanoPos[_X] , tucanoPos[_Y] );
+
+
+	context.drawImage( azul , azulPos[_X] , azulPos[_Y] );
+
+	context.fillText( "Passaros ultrapassados: " + contPassaros, 20, 20);
+
+  }
+
+</script>
+
+</head>
+	<body onload="initialize()">
+		<canvas id="myCanvas" width="478" height="505" style="background-color:#66a7e8;">
+
+		</canvas>
+	</body>
+</html>
+
