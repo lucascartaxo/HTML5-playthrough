@@ -6,18 +6,28 @@
 	var rua = {
 	    imagem: new Image(),
 	    pos_x:0,
-	    pos_y:0
+	    pos_y:0,
+	    draw: function(context){
+	        context.drawImage(this.imagem, this.pos_x, this.pos_y);
+	        context.drawImage(this.imagem, this.pos_x, this.pos_y - this.imagem.height);
+	    },
+	    atualiza_posicao: function(){
+	        (this.pos_y > this.imagem.height  ) ? this.pos_y = 0 : this.pos_y += 5;
+	    }
 	}
 
 	var carro = {
 	    imagem: new Image(),
 	    pos_x:250,
-	    pos_y:450
-	 //   movimentar: function(e){
-	   //     console.log("asdf")
-    	//	if (e.keyCode == 39) self.pos_x += 5; // Direita
-	    //	if (e.keyCode == 37) self.pos_x -= 5; // Esquerda
-	    //}
+	    pos_y:450,
+	    draw: function(context){
+    		context.drawImage(this.imagem, this.pos_x, this.pos_y, this.imagem.width/3,this.imagem.height/3);
+	    },
+	    movimentar: function(e){
+	        console.log("asdf"  )
+		    if (e.keyCode == 39) this.pos_x ++; // Direita
+		    if (e.keyCode == 37) this.pos_x --; // Esquerda
+	    }
 	}
 
 	function Initialize()
@@ -28,9 +38,9 @@
 		{
 			context = canvas.getContext("2d");
 			rua.imagem.src = "../media/road.jpg";
-			carro.imagem.src = "../media/carro.PNG"
+			carro.imagem.src = "../media/gray-car-top-view-md.png" // TODO arranjar uma imagem melhor pro carros
 
-            //window.onkeydown = carro.movimentar;
+            window.onkeydown = carro.movimentar;
 
 			setInterval(Run, 16.6);
 		}
@@ -44,19 +54,17 @@
 
 	function Update()
 	{
-		console.log("Updated!");
-        ( rua.pos_y > rua.imagem.height  ) ? rua.pos_y = 0 : rua.pos_y += 5;
-
+	    rua.atualiza_posicao();
+	    window.onkeydown = carro.movimentar();
 	}
 
 	function Draw()
 	{
 		context.clearRect(0,0,800,600);
-
-		context.drawImage(rua.imagem, rua.pos_x, rua.pos_y);
-		context.drawImage(rua.imagem, rua.pos_x, rua.pos_y - rua.imagem.height);
-
-		context.drawImage(carro.imagem, carro.pos_x, carro.pos_y);
+        context.save();
+            rua.draw(context);
+            carro.draw(context);
+        context.restore();
 	}
 	</script>
 </head>
