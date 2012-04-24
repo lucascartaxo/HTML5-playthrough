@@ -19,14 +19,20 @@
 	var carro = {
 	    imagem: new Image(),
 	    pos_x:250,
-	    pos_y:450,
+	    pos_y:400,
+	    angulo:(Math.PI/2)*3,
 	    draw: function(context){
-    		context.drawImage(this.imagem, this.pos_x, this.pos_y, this.imagem.width/3,this.imagem.height/3);
+	        context.save();
+	            context.translate(this.pos_x + (this.imagem.width/3)/ 2, this.pos_y + (this.imagem.height/3) / 2);
+		        context.rotate(this.angulo);
+		        context.translate(-(this.pos_x + (this.imagem.width/3) / 2), -(this.pos_y + (this.imagem.height/3) / 2));
+        		context.drawImage(this.imagem, this.pos_x, this.pos_y, this.imagem.width/3,this.imagem.height/3);
+    		context.restore();
 	    },
 	    movimentar: function(e){
-	        console.log("asdf"  )
-		    if (e.keyCode == 39) this.pos_x ++; // Direita
-		    if (e.keyCode == 37) this.pos_x --; // Esquerda
+		    console.log(e);
+		    if (e.keyCode == 39) this.pos_x += 5; // Direita
+		    if (e.keyCode == 37) this.pos_x -= 5; // Esquerda
 	    }
 	}
 
@@ -38,9 +44,7 @@
 		{
 			context = canvas.getContext("2d");
 			rua.imagem.src = "../media/road.jpg";
-			carro.imagem.src = "../media/gray-car-top-view-md.png" // TODO arranjar uma imagem melhor pro carros
-
-            window.onkeydown = carro.movimentar;
+			carro.imagem.src = "../media/gray-car-top-view-md.png" // TODO arranjar uma imagem melhor pro carro
 
 			setInterval(Run, 16.6);
 		}
@@ -55,16 +59,14 @@
 	function Update()
 	{
 	    rua.atualiza_posicao();
-	    window.onkeydown = carro.movimentar();
+	    window.onkeydown = function(event) { carro.movimentar(event); }
 	}
 
 	function Draw()
 	{
 		context.clearRect(0,0,800,600);
-        context.save();
-            rua.draw(context);
-            carro.draw(context);
-        context.restore();
+        rua.draw(context);
+        carro.draw(context);
 	}
 	</script>
 </head>
