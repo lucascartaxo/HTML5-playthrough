@@ -1,0 +1,72 @@
+<html>
+<head>
+  <script language="javascript">
+  var context;
+
+  var road = {
+    image: new Image(),
+    pos_x:0,
+    pos_y:0,
+    load: function () {
+        this.image.src = "../media/road.jpg";
+    },
+    draw: function(context){
+      context.drawImage(this.image, this.pos_x, this.pos_y);
+      context.drawImage(this.image, this.pos_x, this.pos_y - this.image.height);
+    },
+    update: function(){
+        (this.pos_y > this.image.height  ) ? this.pos_y = 0 : this.pos_y += 5;
+    }
+  }
+
+  var car = {
+    image: new Image(),
+    pos_x:250,
+    pos_y:400,
+    load: function () {
+        this.image.src = "../media/carro_corrida_transp.png";
+    },
+    draw: function(context){
+        context.drawImage(this.image, this.pos_x, this.pos_y);
+    },
+    update: function(e){
+        if (e.keyCode == 39) this.pos_x += 5; // Direita
+        if (e.keyCode == 37) this.pos_x -= 5; // Esquerda
+    }
+  }
+
+  function Initialize() {
+    var canvas = document.getElementById("tela")
+    if(canvas.getContext) {
+      context = canvas.getContext("2d");
+      Load();
+      setInterval(Run,16.6);
+    }
+  }
+
+  function Load() {
+    car.load(); road.load();
+  }
+
+  function Run() {
+    Update(); Draw();
+  }
+
+  function Update() {
+    road.update();
+    window.onkeydown = function(event) { car.update(event); }
+  }
+  function Draw() {
+    context.clearRect(0,0,800,600);
+    road.draw(context);
+    car.draw(context);
+  }
+
+  </script>
+</head>
+<body onload="Initialize()">
+  <canvas id="tela" width="500" height="500" style="background-color:#ffff00;">
+    Canvas do HTML5 n�o suportado pelo Browser!
+  </canvas>
+</body>
+</html>
