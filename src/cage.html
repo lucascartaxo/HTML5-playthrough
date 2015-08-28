@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <title>Bexiga animada</title>
+
+  <script>
+  var cage;
+  var xcage = 10;
+  var ycage = 10;
+  var context;
+
+  function initialize() {
+    var canvas = document.getElementById("tela")
+    if(canvas.getContext) {
+      context = canvas.getContext("2d");
+      Load();
+      setInterval(Run,16.6);
+    }
+  }
+  function Load () {
+    cage = new Image();
+    cage.src = "../media/cage.jpg";
+  }
+  function Run() {
+    Update();
+    Draw();
+  }
+  function Update() {
+    xcage += 1;
+  }
+  function Draw() {
+    context.clearRect(0, 0, 800, 600);
+    context.drawImage(cage,xcage,ycage);
+  }
+
+  </script>
+</head>
+<body onload="initialize()">
+  <canvas id="tela" width="800" height="600">
+    Canvas do HTML5 não suportado pelo Browser.
+  </canvas>
+</body>
+</html>
