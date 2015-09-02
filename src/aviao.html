@@ -1,0 +1,83 @@
+<html>
+<head>
+  <script language="javascript">
+  var context;
+  var mousex = 0;
+  var mousey = 0;
+
+  var plane = {
+    image: new Image(),
+    speed: 1,
+    pos_x:50,
+    pos_y:50,
+    load: function () {
+        this.image.src = "../media/aviao3.png";
+    },
+    draw: function(context){
+      // context.drawImage(this.image, this.pos_x, this.pos_y);
+      context.arc(this.pos_x, this.pos_y, 5, 0, 2 * Math.PI, false);
+      context.fillStyle = "#f00";
+      context.fill();
+    },
+    update: function(){
+      // var mousex = 0;
+      // var mouse y
+      // if(event){
+      //   mousex = event.clientX;
+      //   mousey = event.clientY;
+      //   // y = y + Math.sin(angulo) * aceleracao;
+      // }
+
+      var angle = Math.atan2(mousey - this.pos_y, mousex = this.pos_x);
+
+      this.pos_x = this.pos_x + Math.cos(angle) * this.speed;
+      this.pos_y = this.pos_y + Math.sin(angle) * this.speed;
+
+      // if(pos_x !== mousex){
+      //   pos_x = pos_x *
+      // }
+      //
+      // x = x + Math.cos(angulo) * aceleracao;
+      // y = y + Math.sin(angulo) * aceleracao;
+    }
+  }
+
+  function Initialize() {
+    var canvas = document.getElementById("tela")
+    if(canvas.getContext) {
+      context = canvas.getContext("2d");
+      Load();
+      setInterval(Run,16.6);
+    }
+  }
+
+  function Load() {
+    plane.load();
+  }
+
+  function Run() {
+    Update(); Draw();
+  }
+
+  function Update() {
+    plane.update();
+    window.onmousemove = function(event) {
+      mousex = event.clientX;
+      mousey = event.clientY;
+    }
+
+  }
+  function Draw() {
+    context.clearRect(0,0,800,600);
+    context.fillText("MOUSE x = " + mousex + ", y = " + mousey, 0, 20);
+    plane.draw(context);
+  }
+
+  </script>
+</head>
+<body onload="Initialize()">
+  <canvas id="tela" width="500" height="500" style="background-color:#ffff00;">
+    Canvas do HTML5 n�o suportado pelo Browser!
+  </canvas>
+</body>
+</html>
