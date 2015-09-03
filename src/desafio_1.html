@@ -12,7 +12,7 @@
     posY:250,
     angle: 0,
     load: function () {
-        this.image.src = "../media/aviao_peq.png";
+        this.image.src = "../media/aviao.png";
     },
     draw: function(context){
       context.clearRect(0,0,800,600);
@@ -22,8 +22,6 @@
         context.translate(-(this.posX + this.image.width / 2), -(this.posY + this.image.height / 2));
       context.drawImage(this.image, this.posX, this.posY);
       context.restore();
-
-      // context.drawImage(this.image, this.posX, this.posY);
     },
     update: function(){
       var delta_x = mouseX - this.posX;
@@ -71,7 +69,7 @@
 </head>
 <body onload="Initialize()">
   <canvas id="tela" width="500" height="500" style="background-color:#ff00ff;">
-    Canvas do HTML5 n�o suportado pelo Browser!
+    Canvas do HTML5 nao suportado pelo Browser!
   </canvas>
 </body>
 </html>
