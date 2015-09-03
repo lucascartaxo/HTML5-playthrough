@@ -10,20 +10,29 @@
     speed: 2,
     posX:250,
     posY:250,
+    angle: 0,
     load: function () {
         this.image.src = "../media/aviao_peq.png";
     },
     draw: function(context){
+      context.clearRect(0,0,800,600);
+      context.save();
+        context.translate(this.posX + this.image.width / 2, this.posY + this.image.height / 2);
+        context.rotate(this.angle + (Math.PI/2));
+        context.translate(-(this.posX + this.image.width / 2), -(this.posY + this.image.height / 2));
       context.drawImage(this.image, this.posX, this.posY);
+      context.restore();
+
+      // context.drawImage(this.image, this.posX, this.posY);
     },
     update: function(){
       var delta_x = mouseX - this.posX;
       var delta_y = mouseY - this.posY;
 
-      var angle = Math.atan2(delta_y, delta_x);
+      this.angle = Math.atan2(delta_y, delta_x);
 
-      this.posX = this.posX + Math.cos(angle) * this.speed;
-      this.posY = this.posY + Math.sin(angle) * this.speed;
+      this.posX = this.posX + Math.cos(this.angle) * this.speed;
+      this.posY = this.posY + Math.sin(this.angle) * this.speed;
     }
   }
 
