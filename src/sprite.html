@@ -1,0 +1,98 @@
+<html>
+<head>
+    <script language="javascript">
+    var context;
+
+    function newSmurf(){
+        var Smurf = {
+            image: new Image(),
+            image_width:4,
+            image_height:4,
+            image_step_x:0,
+            image_step_y:0,
+            pos_x:0,
+            pos_y:0,
+            vel:4,
+
+            load: function () {
+                this.image.src = "../media/smurf_sprite.png"
+            },
+
+            draw:function(context){
+                var image_x = this.image.width/this.image_width;
+                var image_y = this.image.height/this.image_height;
+
+                // drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+                context.drawImage(  this.image,                     // image
+                                    image_x * this.image_step_x,    // source X position
+                                    image_y * this.image_step_y,    // source Y position
+                                    image_x,                        // source width
+                                    image_y,                        // source height
+                                    this.pos_x,                     // destination canvas X position
+                                    this.pos_y,                     // destination canvas Y position
+                                    image_x,                        // destination canvas width  (SLICE)
+                                    image_y);                       // destination canvas height (SLICE)
+            },
+            move: function(e){
+                if (e.keyCode == 39){
+                    this.update_sprite();
+                    this.pos_x += this.vel;
+                    if (this.pos_x > 500) this.pos_x = -this.image.width/this.image_width;
+                }
+            },
+            update_sprite: function(){
+                this.image_step_x += 1;
+                if (this.image_step_x > 3 ){
+                    this.image_step_y +=1;
+                    this.image_step_x = 0;
+                    if (this.image_step_y > 3){
+                        this.image_step_y = 0;
+                    }
+                }
+            }
+        }
+        return Smurf;
+    }
+
+    function Initialize()
+    {
+        var canvas = document.getElementById("tela");
+
+        if(canvas.getContext)
+        {
+            context = canvas.getContext("2d");
+            smurf = newSmurf();
+            Load();
+
+            setInterval(Run, 16.6);
+        }
+    }
+
+    function Load() {
+        smurf.load();
+    }
+
+    function Run()
+    {
+        Update();
+        Draw();
+    }
+
+    function Update()
+    {
+        window.onkeydown = function(event) { smurf.move(event);}
+    }
+
+    function Draw()
+    {
+        context.clearRect(0,0,800,600);
+        smurf.draw(context);
+    }
+    </script>
+</head>
+<body onLoad="Initialize()">
+    <canvas id="tela" width="500" height="500">
+        Canvas do HTML5 não suportado pelo Browser!
+    </canvas>
+</body>
+</html>
