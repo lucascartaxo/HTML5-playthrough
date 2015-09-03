@@ -2,56 +2,28 @@
 <head>
   <script language="javascript">
   var context;
-  var mousex = 0;
-  var mousey = 0;
+  var mouseX = 0;
+  var mouseY = 0;
 
   var plane = {
     image: new Image(),
     speed: 2,
-    pos_x:250,
-    pos_y:250,
+    posX:250,
+    posY:250,
     load: function () {
         this.image.src = "../media/aviao_peq.png";
     },
     draw: function(context){
-      context.drawImage(this.image, this.pos_x, this.pos_y);
-      // context.arc(this.pos_x, this.pos_y, 2, 0, 2 * Math.PI, false);
-      // context.fillStyle = "#f00";
-      // context.fill();
+      context.drawImage(this.image, this.posX, this.posY);
     },
     update: function(){
-      // var mousex = 0;
-      // var mouse y
-      // if(event){
-      //   mousex = event.clientX;
-      //   mousey = event.clientY;
-      //   // y = y + Math.sin(angulo) * aceleracao;
-      // }
-
-      var delta_x = this.pos_x - mousex;
-      var delta_y = this.pos_y - mousey;
-
-      console.log("******** delta x = " + delta_x);
-      console.log("******** delta y = " + delta_y);
+      var delta_x = mouseX - this.posX;
+      var delta_y = mouseY - this.posY;
 
       var angle = Math.atan2(delta_y, delta_x);
-      console.log("******** angle RAD= " + angle);
-      console.log("******** angle deg= " + angle * (180 /  Math.PI));
 
-      // var angle = Math.atan2(mousey - this.pos_y, mousex = this.pos_x);
-
-      // this.pos_x = this.pos_x + Math.cos(angle) * this.speed;
-      // this.pos_y = this.pos_y + Math.sin(angle) * this.speed;
-
-      // this.pos_x = this.pos_x + this.pos_x * this.speed;
-      // this.pos_y = this.pos_x + this.pos_y * this.speed;
-
-      // if(pos_x !== mousex){
-      //   pos_x = pos_x *
-      // }
-      //
-      this.pos_x = this.pos_x + Math.cos(angle) * this.speed * -1;
-      this.pos_y = this.pos_y + Math.sin(angle) * this.speed * -1;
+      this.posX = this.posX + Math.cos(angle) * this.speed;
+      this.posY = this.posY + Math.sin(angle) * this.speed;
     }
   }
 
@@ -75,21 +47,21 @@
   function Update() {
     plane.update();
     window.onmousemove = function(event) {
-      mousex = event.clientX;
-      mousey = event.clientY;
+      mouseX = event.clientX;
+      mouseY = event.clientY;
     }
 
   }
   function Draw() {
     context.clearRect(0,0,500,500);
-    context.fillText("MOUSE x = " + mousex + ", y = " + mousey, 0, 20);
+    context.fillText("MOUSE x = " + mouseX + ", y = " + mouseY, 0, 20);
     plane.draw(context);
   }
 
   </script>
 </head>
 <body onload="Initialize()">
-  <canvas id="tela" width="500" height="500" style="background-color:#ffff00;">
+  <canvas id="tela" width="500" height="500" style="background-color:#ff00ff;">
     Canvas do HTML5 n�o suportado pelo Browser!
   </canvas>
 </body>
